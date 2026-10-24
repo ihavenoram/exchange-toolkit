@@ -1,0 +1,5 @@
+# Reports, evidence packs, the action log and HealthChecker output describe a
+# real server: names, addresses, accounts. Keep them out of any repository.
+Output/
+*.json
+*.html
