@@ -1,3 +1,5 @@
+# Exchange Toolkit 1.2.1 - https://ihavenoram.com - https://github.com/ihavenoram/exchange-toolkit
+# MIT licence, (c) 2026 ihavenoram.com. If you publish something built on this, please credit ihavenoram.com.
 <#
     Exchange Toolkit - on-premises Exchange Server checks (WinForms)
     ----------------------------------------------------------------

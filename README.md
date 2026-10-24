@@ -8,15 +8,15 @@ From [ihavenoram.com](https://ihavenoram.com): field notes for ADHD techs runnin
 
 ## Download
 
-Grab the latest zip from **[Releases](../../releases/latest)**. The SHA-256 checksum is in the release notes and in the `.sha256` file beside the zip:
+Grab **`exchange.zip`** from **[Releases](../../releases/latest)**. It holds one folder, `exchange\`, with only what runs: the scripts and a `.cmd` launcher for each. Copy that folder to the PC or server (for example `C:\temp\exchange`); this README and the docs stay here on GitHub. The SHA-256 checksum is in the release notes and in the `.sha256` file beside the zip:
 
 ```powershell
-Get-FileHash .\Exchange-Toolkit.zip -Algorithm SHA256
+Get-FileHash .\exchange.zip -Algorithm SHA256
 ```
 
 ## Run it
 
-Unzip it on the Exchange server (for example `C:\temp\Exchange-Toolkit`) and double-click **`Launch-Exchange-Toolkit.cmd`**, elevated: VSS, shadow copies, the Security log and IIS need admin rights. Without them those checks say "needs an elevated session" rather than guessing, and a **Restart as administrator** button relaunches it.
+Unzip it on the Exchange server (for example `C:\temp\exchange`) and double-click **`Launch-Exchange-Toolkit.cmd`**, elevated: VSS, shadow copies, the Security log and IIS need admin rights. Without them those checks say "needs an elevated session" rather than guessing, and a **Restart as administrator** button relaunches it.
 
 It also works in **ScreenConnect Backstage** (running as SYSTEM). It goes straight to the Exchange management snap-in, checks this server only, and asks for your name before any action, so the action log says who did it.
 
