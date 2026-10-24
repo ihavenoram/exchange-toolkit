@@ -1,6 +1,6 @@
 @echo off
 REM ===========================================================================
-REM  Exchange Toolkit - HTML report generator launcher
+REM  Exchange GUI Tool - HTML report generator launcher
 REM
 REM  Same rules as Launch-Exchange-Toolkit.cmd: powershell.exe by FULL PATH
 REM  (cmd.exe searches the current folder first), -STA for WinForms, conhost

@@ -1,10 +1,10 @@
-# Exchange Toolkit 1.2.1 - https://ihavenoram.com - https://github.com/ihavenoram/exchange-toolkit
+# Exchange GUI Tool 1.2.2 - https://ihavenoram.com - https://github.com/ihavenoram/exchange-toolkit
 # MIT licence, (c) 2026 ihavenoram.com. If you publish something built on this, please credit ihavenoram.com.
 <#
 .SYNOPSIS
-    HTML report generator for the Exchange Toolkit.
+    HTML report generator for the Exchange GUI Tool.
 .DESCRIPTION
-    Paste the JSON report the Exchange Toolkit saved or copied (with or without
+    Paste the JSON report the Exchange GUI Tool saved or copied (with or without
     the <<<ETK_JSON_BEGIN>>> / <<<ETK_JSON_END>>> markers), or browse to the
     saved .json. Produces one self-contained HTML file in the Output folder
     next to this script:
@@ -72,7 +72,7 @@ function Get-EtrCollapsedSections {
 # -----------------------------------------------------------------------------
 function Get-EtrReportJson {
     # The report, from a paste (markers or bare JSON) or a file's text. Refuses
-    # anything that is not an Exchange Toolkit report, and names truncation -
+    # anything that is not an Exchange GUI Tool report, and names truncation -
     # the usual failure with a long paste - instead of a bare parse error.
     param([string]$Text)
     if ([string]::IsNullOrWhiteSpace($Text)) { throw 'Nothing to read - paste the report or browse to the .json file.' }
@@ -94,11 +94,11 @@ function Get-EtrReportJson {
         throw ('Could not read the JSON: ' + $_.Exception.Message + $hint)
     }
     if ([string]$obj.schema -ne $script:EtrSchema) {
-        throw ("This is not an Exchange Toolkit report (schema: '{0}'). Save or copy the report from the toolkit's JSON report tab." -f [string]$obj.schema)
+        throw ("This is not an Exchange GUI Tool report (schema: '{0}'). Save or copy the report from the toolkit's JSON report tab." -f [string]$obj.schema)
     }
     $major = ([string]$obj.schemaVersion).Split('.')[0]
     if ($major -ne '1') {
-        throw ("This report uses schema version {0}, made by a newer Exchange Toolkit. Update Generate-ExchangeReport.ps1 to match." -f [string]$obj.schemaVersion)
+        throw ("This report uses schema version {0}, made by a newer Exchange GUI Tool. Update Generate-ExchangeReport.ps1 to match." -f [string]$obj.schemaVersion)
     }
     return $obj
 }
@@ -604,7 +604,7 @@ function Build-EtrHtml {
             [void]$sb.Append('<p class="note">Summary report. The full technical detail is in the toolkit''s JSON report and can be generated as a separate HTML file.</p>')
         }
 
-        [void]$sb.Append('<footer>Generated ' + (Get-Date -Format 'd MMM yyyy HH:mm') + ' by Exchange Toolkit report generator ' + $script:EtrVersion +
+        [void]$sb.Append('<footer>Generated ' + (Get-Date -Format 'd MMM yyyy HH:mm') + ' by Exchange GUI Tool report generator ' + $script:EtrVersion +
             ' from an ' + (Out-EtrText $Report.schema) + ' v' + (Out-EtrText $Report.schemaVersion) + ' report. Times are shown in ' + (Out-EtrText $zone.Id) + '.</footer>')
         [void]$sb.Append('</div><script>window.addEventListener("beforeprint",function(){var d=document.querySelectorAll("details");for(var i=0;i<d.length;i++){d[i].open=true;}});</script></body></html>')
         return $sb.ToString()
@@ -663,7 +663,7 @@ if (-not $NoHideConsole) {
 }
 
 $form = New-Object System.Windows.Forms.Form
-$form.Text = ('Exchange Toolkit - HTML report ' + $script:EtrVersion)
+$form.Text = ('Exchange GUI Tool - HTML report ' + $script:EtrVersion)
 $form.Size = New-Object System.Drawing.Size(900, 640)
 $form.MinimumSize = New-Object System.Drawing.Size(700, 420)
 $form.StartPosition = 'CenterScreen'

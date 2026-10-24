@@ -1,6 +1,6 @@
 @echo off
 REM ===========================================================================
-REM  Exchange Toolkit - launcher
+REM  Exchange GUI Tool - launcher
 REM
 REM  -STA is REQUIRED: WinForms is unreliable in a multi-threaded apartment,
 REM  and the failure is intermittent rather than obvious.

@@ -1,10 +1,10 @@
-# Exchange Toolkit: on-premises Exchange checks
+# Exchange GUI Tool: on-premises Exchange checks
 
 A WinForms tool for **Windows PowerShell 5.1** for the on-premises Exchange Server that's "slow every morning", has "mail flow stopped", or keeps Outlook prompting. Run it on the server, or point it at one from a workstation. One click checks Exchange **and** the things the Exchange cmdlets can't see: snapshots on the database volume, backup filter drivers, the VSS writer, scheduled jobs inside the morning rush, event-log history and who's been trying passwords.
 
 From [ihavenoram.com](https://ihavenoram.com): field notes for ADHD techs running managed services.
 
-![Exchange Toolkit's Overview: a verdict per area, with the server, Exchange build, restarts and who started them](docs/screenshot.png)
+![The Exchange GUI Tool's Overview: a verdict per area, with the server, Exchange build, restarts and who started them](docs/screenshot.png)
 
 ## Download
 
@@ -14,7 +14,13 @@ Grab **`exchange.zip`** from **[Releases](../../releases/latest)**. It holds one
 Get-FileHash .\exchange.zip -Algorithm SHA256
 ```
 
-## Run it
+## Install it (recommended on a server you look after)
+
+On the Exchange server, unzip it anywhere and double-click **`Install-ExchangeToolkit.cmd`**. It asks for admin rights, copies the tool to `C:\Scripts` (checking each copy against the original), and puts an **Exchange GUI Tool** shortcut on the all-users desktop, with its own icon and *Run as administrator* already set. Run it again to update.
+
+If `C:\Scripts` already exists and isn't owned by Administrators or SYSTEM, the installer warns you and asks first: a folder a standard user owns lets them change scripts that admins later run elevated.
+
+## Or just run it
 
 Unzip it on the Exchange server (for example `C:\temp\exchange`) and double-click **`Launch-Exchange-Toolkit.cmd`**, elevated: VSS, shadow copies, the Security log and IIS need admin rights. Without them those checks say "needs an elevated session" rather than guessing, and a **Restart as administrator** button relaunches it.
 
@@ -50,6 +56,8 @@ A single Exchange 2019 server, also the site's only domain controller, needed re
 | `Launch-Exchange-Toolkit.cmd` | Launcher (forces `-STA`) |
 | `Exchange-Toolkit.ps1` | The tool |
 | `Launch-Exchange-Report.cmd` / `Generate-ExchangeReport.ps1` | Turn a saved JSON report into one self-contained HTML file (no admin or Exchange needed) |
+| `Install-ExchangeToolkit.cmd` / `Install-ExchangeToolkit.ps1` | The installer: copies the tool to `C:\Scripts` and adds the desktop shortcut |
+| `ExchangeToolkit.ico` | The shortcut's icon |
 | `docs/TECHNICAL.md` | The full reference: every check, every action, what it can't see, and what has and hasn't been verified on a live server |
 
 ## Notes

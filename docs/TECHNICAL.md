@@ -1,4 +1,4 @@
-# Exchange Toolkit - technical notes
+# Exchange GUI Tool - technical notes
 
 > The full reference. The [README](../README.md) has the short version. The test suite described in the private copy is not part of this release.
 
@@ -240,4 +240,6 @@ That run exposed nine bugs, all now fixed and covered by tests:
 | `Launch-Exchange-Toolkit.cmd` | Launcher: full-path `powershell.exe`, `-STA`, conhost so the console can be hidden on Windows 11. |
 | `Generate-ExchangeReport.ps1` | HTML report generator (GUI; `-NoGui` loads the functions only). Kept pure ASCII. |
 | `Launch-Exchange-Report.cmd` | Launcher for the generator, built the same way as the toolkit's. |
+| `Install-ExchangeToolkit.cmd`, `Install-ExchangeToolkit.ps1` | Installer. Double-click the `.cmd`: it asks for admin rights, copies the four runtime files and the icon to `C:\Scripts` (created if missing; each copy is hash-checked), and writes an "Exchange GUI Tool" shortcut to the all-users desktop, with the icon and **Run as administrator** set. Run it again to update. If `C:\Scripts` already exists and isn't owned by Administrators or SYSTEM, it warns and asks first: a folder a standard user owns lets them swap scripts that admins run elevated. It's a `.cmd` + `.ps1` pair, not one file, because packing PowerShell inside a `.cmd` means `Invoke-Expression`, which EDR tools flag. |
+| `ExchangeToolkit.ico` | The shortcut icon. |
 | `Output\` | Reports, evidence packs, action log (created on first use). |

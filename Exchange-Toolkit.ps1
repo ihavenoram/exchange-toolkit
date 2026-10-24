@@ -1,7 +1,7 @@
-# Exchange Toolkit 1.2.1 - https://ihavenoram.com - https://github.com/ihavenoram/exchange-toolkit
+# Exchange GUI Tool 1.2.2 - https://ihavenoram.com - https://github.com/ihavenoram/exchange-toolkit
 # MIT licence, (c) 2026 ihavenoram.com. If you publish something built on this, please credit ihavenoram.com.
 <#
-    Exchange Toolkit - on-premises Exchange Server checks (WinForms)
+    Exchange GUI Tool - on-premises Exchange Server checks (WinForms)
     ----------------------------------------------------------------
     A single-file tool for Windows PowerShell 5.1, built to be run ON an
     Exchange server (or against one from a workstation) when "email is slow",
@@ -3467,7 +3467,7 @@ function New-EtkReport {
     [pscustomobject]@{
         schema        = 'exchange-toolkit-report'
         schemaVersion = 1
-        tool          = [pscustomobject]@{ name = 'Exchange Toolkit'; version = (Get-EtkVersion) }
+        tool          = [pscustomobject]@{ name = 'Exchange GUI Tool'; version = (Get-EtkVersion) }
         collectedUtc  = (ConvertTo-EtkIso8601 ([datetime]::UtcNow))
         startedUtc    = (ConvertTo-EtkIso8601 $StartedUtc)
         host          = $Context
@@ -3563,7 +3563,7 @@ function Export-EtkEvidence {
     [void](New-Item -ItemType Directory -Path $OutDir -Force)
     $sIso = ConvertTo-EtkIso8601 $Start; $eIso = ConvertTo-EtkIso8601 $End
     $summary = New-Object System.Collections.Generic.List[string]
-    $summary.Add(('Exchange Toolkit {0} evidence pack' -f (Get-EtkVersion)))
+    $summary.Add(('Exchange GUI Tool {0} evidence pack' -f (Get-EtkVersion)))
     $summary.Add(('Target: {0}   Window (local): {1} to {2}   (UTC {3} to {4})' -f (Get-EtkTarget).name, $Start.ToString('yyyy-MM-dd HH:mm'), $End.ToString('yyyy-MM-dd HH:mm'), $sIso, $eIso))
     $enc = New-Object System.Text.UTF8Encoding $false
 
@@ -3835,7 +3835,7 @@ $EngineSource = ''
 $m = [regex]::Match($SelfSource, '(?s)#region ENGINE(.*?)#endregion ENGINE')
 if ($m.Success) { $EngineSource = $m.Groups[1].Value }
 if ([string]::IsNullOrWhiteSpace($EngineSource)) {
-    [void][System.Windows.Forms.MessageBox]::Show('The engine section of this script could not be read. The "#region ENGINE" / "#endregion ENGINE" markers must be intact.', 'Exchange Toolkit', 'OK', 'Error')
+    [void][System.Windows.Forms.MessageBox]::Show('The engine section of this script could not be read. The "#region ENGINE" / "#endregion ENGINE" markers must be intact.', 'Exchange GUI Tool', 'OK', 'Error')
     return
 }
 
@@ -4039,7 +4039,7 @@ function Get-EtkUiOptions {
     $ws = $script:txtWinStart.Text.Trim(); $we = $script:txtWinEnd.Text.Trim()
     foreach ($v in @($ws, $we)) {
         if ($v -notmatch '^\d{1,2}:\d{2}$') {
-            [void][System.Windows.Forms.MessageBox]::Show(('"{0}" is not a time. Use HH:mm, for example 05:00.' -f $v), 'Exchange Toolkit', 'OK', 'Warning')
+            [void][System.Windows.Forms.MessageBox]::Show(('"{0}" is not a time. Use HH:mm, for example 05:00.' -f $v), 'Exchange GUI Tool', 'OK', 'Warning')
             return $null
         }
     }
@@ -4261,7 +4261,7 @@ function Show-EtkTechnicianDialog {
     # Asked once per session, only when the tool runs as an account that does
     # not identify a person (SYSTEM, built-in Administrator).
     $f = New-Object System.Windows.Forms.Form
-    $f.Text = 'Who is running this? - Exchange Toolkit'
+    $f.Text = 'Who is running this? - Exchange GUI Tool'
     $f.Size = New-Object System.Drawing.Size(560, 210)
     $f.StartPosition = 'CenterParent'; $f.FormBorderStyle = 'FixedDialog'; $f.MaximizeBox = $false; $f.MinimizeBox = $false
     $f.Font = New-Object System.Drawing.Font('Segoe UI', 9)
@@ -4295,7 +4295,7 @@ function Confirm-EtkTechnician {
 function Show-EtkConfirmDialog {
     param([string]$Title, [string]$Risk, [string]$Server, [string]$Command, [string]$Intro = '')
     $f = New-Object System.Windows.Forms.Form
-    $f.Text = 'Confirm action - Exchange Toolkit'
+    $f.Text = 'Confirm action - Exchange GUI Tool'
     $f.Size = New-Object System.Drawing.Size(720, 360)
     $f.StartPosition = 'CenterParent'; $f.FormBorderStyle = 'FixedDialog'; $f.MaximizeBox = $false; $f.MinimizeBox = $false
     $f.Font = New-Object System.Drawing.Font('Segoe UI', 9)
@@ -4347,7 +4347,7 @@ function Invoke-EtkUiAction {
     $server = Get-EtkActionServer
     $cmd = Get-EtkActionCommand -Id $Ref.id -Arguments $Ref.args -Server $server
     if ($def.where -eq 'exchange' -and -not ($script:Target -and $script:Target.exchange -ne 'none')) {
-        [void][System.Windows.Forms.MessageBox]::Show('Connect to Exchange first - this action uses the Exchange cmdlets.', 'Exchange Toolkit', 'OK', 'Information')
+        [void][System.Windows.Forms.MessageBox]::Show('Connect to Exchange first - this action uses the Exchange cmdlets.', 'Exchange GUI Tool', 'OK', 'Information')
         return
     }
     if (-not (Confirm-EtkTechnician)) { return }
@@ -4358,7 +4358,7 @@ function Invoke-EtkUiAction {
     if ($opt.ConnectFirst -and $script:connectedTo) {
         # The box names a different server from the one the rows came from.
         # Running the action now would aim it at a server nobody looked at.
-        [void][System.Windows.Forms.MessageBox]::Show(('The server box now says "{0}", but these results are from "{1}". Connect and re-run the tab first.' -f $opt.Server, $script:connectedTo), 'Exchange Toolkit', 'OK', 'Warning')
+        [void][System.Windows.Forms.MessageBox]::Show(('The server box now says "{0}", but these results are from "{1}". Connect and re-run the tab first.' -f $opt.Server, $script:connectedTo), 'Exchange GUI Tool', 'OK', 'Warning')
         return
     }
     $opt.Id = [string]$Ref.id
@@ -4471,7 +4471,7 @@ function Update-EtkServiceGrid {
 function Invoke-EtkServiceAction {
     param([string]$Id, [string]$Verb)
     if ($script:gridServices.SelectedRows.Count -eq 0) {
-        [void][System.Windows.Forms.MessageBox]::Show('Select a service in the list first.', 'Exchange Toolkit', 'OK', 'Information')
+        [void][System.Windows.Forms.MessageBox]::Show('Select a service in the list first.', 'Exchange GUI Tool', 'OK', 'Information')
         return
     }
     $s = $script:gridServices.SelectedRows[0].Tag
@@ -4541,7 +4541,7 @@ function Complete-EtkHealthChecker {
     $script:Actions.Add($res)
     $file = Write-EtkActionAudit -Result $res
     if ($file) { Write-EtkLog ('Logged to {0}' -f $file) }
-    if (-not $res.ok) { [void][System.Windows.Forms.MessageBox]::Show(('HealthChecker did not run: {0}' -f $res.output), 'Exchange Toolkit', 'OK', 'Warning') }
+    if (-not $res.ok) { [void][System.Windows.Forms.MessageBox]::Show(('HealthChecker did not run: {0}' -f $res.output), 'Exchange GUI Tool', 'OK', 'Warning') }
 }
 
 # ---------------------------------------------------------------------------
@@ -4566,7 +4566,7 @@ function Invoke-EtkUiIpLookup {
     if ($script:busy) { return }
     $ips = Get-EtkUiPublicIps
     if ($ips.Count -eq 0) {
-        [void][System.Windows.Forms.MessageBox]::Show('There are no public addresses in the Security results. Run the Security checks first.', 'Exchange Toolkit', 'OK', 'Information')
+        [void][System.Windows.Forms.MessageBox]::Show('There are no public addresses in the Security results. Run the Security checks first.', 'Exchange GUI Tool', 'OK', 'Information')
         return
     }
     if (-not (Confirm-EtkTechnician)) { return }
@@ -4640,7 +4640,7 @@ function New-EtkCheckTab {
 # ---------------------------------------------------------------------------
 $script:runButtons = @()
 $script:form = New-Object System.Windows.Forms.Form
-$script:form.Text = ('Exchange Toolkit {0}' -f (Get-EtkVersion))
+$script:form.Text = ('Exchange GUI Tool {0}' -f (Get-EtkVersion))
 $script:form.Size = New-Object System.Drawing.Size(1280, 900)
 $script:form.MinimumSize = New-Object System.Drawing.Size(1280, 700)   # the right-anchored badge would overlap the progress bar below this
 $script:form.StartPosition = 'CenterScreen'
@@ -4989,7 +4989,7 @@ $script:timer.Add_Tick({
                     $file = Write-EtkActionAudit -Result $r
                     if ($r.ok) { Write-EtkLog ('Action OK: {0}' -f $r.output) } else { Write-EtkLog ('Action FAILED: {0}' -f $r.output) }
                     if ($file) { Write-EtkLog ('Logged to {0}' -f $file) }
-                    [void][System.Windows.Forms.MessageBox]::Show($(if ($r.ok) { 'Done: ' + $r.output + [Environment]::NewLine + [Environment]::NewLine + 'Re-run the tab to see the effect.' } else { 'The action failed: ' + $r.output }), 'Exchange Toolkit', 'OK', $(if ($r.ok) { 'Information' } else { 'Warning' }))
+                    [void][System.Windows.Forms.MessageBox]::Show($(if ($r.ok) { 'Done: ' + $r.output + [Environment]::NewLine + [Environment]::NewLine + 'Re-run the tab to see the effect.' } else { 'The action failed: ' + $r.output }), 'Exchange GUI Tool', 'OK', $(if ($r.ok) { 'Information' } else { 'Warning' }))
                     # The Fix tab's list is a read-only view; keep it current.
                     if ($script:svcLoaded -and [string]$r.id -like 'svc-*') { $script:refreshServices = $true }
                 }
@@ -5046,7 +5046,7 @@ $script:btnElevate.Add_Click({
 $script:btnEvidence.Add_Click({
     $o = Get-EtkUiOptions
     if (-not $o) { return }
-    if ($script:dtTo.Value -le $script:dtFrom.Value) { [void][System.Windows.Forms.MessageBox]::Show('"To" must be after "From".', 'Exchange Toolkit', 'OK', 'Warning'); return }
+    if ($script:dtTo.Value -le $script:dtFrom.Value) { [void][System.Windows.Forms.MessageBox]::Show('"To" must be after "From".', 'Exchange GUI Tool', 'OK', 'Warning'); return }
     $o.Start = $script:dtFrom.Value; $o.End = $script:dtTo.Value
     $o.OutDir = Join-Path $script:OutputDir ('Evidence_{0}_{1}' -f ($o.Server -replace '[^\w\.\-]', '_'), (Get-Date -Format 'yyyyMMdd_HHmmss'))
     $o.Events = $script:chkEvEvents.Checked; $o.Tracking = $script:chkEvTracking.Checked; $o.Iis = $script:chkEvIis.Checked; $o.HttpProxy = $script:chkEvHttp.Checked
@@ -5098,7 +5098,7 @@ function Invoke-EtkHtmlReport {
     param([bool]$IncludeDetail, [bool]$Redact)
     $gen = Join-Path $script:ScriptDir 'Generate-ExchangeReport.ps1'
     if (-not (Test-Path -LiteralPath $gen)) {
-        [void][System.Windows.Forms.MessageBox]::Show(('Generate-ExchangeReport.ps1 was not found next to this tool ({0}). Copy it into the same folder, or save the JSON and use the generator on another PC.' -f $script:ScriptDir), 'Exchange Toolkit', 'OK', 'Warning')
+        [void][System.Windows.Forms.MessageBox]::Show(('Generate-ExchangeReport.ps1 was not found next to this tool ({0}). Copy it into the same folder, or save the JSON and use the generator on another PC.' -f $script:ScriptDir), 'Exchange GUI Tool', 'OK', 'Warning')
         return
     }
     try {
@@ -5111,9 +5111,9 @@ function Invoke-EtkHtmlReport {
         $title = $(if ($Redact) { '' } else { $srv })
         $path = Save-EtrReport -Text $json -Title $title -IncludeDetail $IncludeDetail -Redact $Redact -OutDir $script:OutputDir
         Write-EtkLog ('HTML report written to {0} (JSON saved alongside).' -f $path)
-        if ([System.Windows.Forms.MessageBox]::Show(("Report saved to:`n$path`n`nOpen it now?"), 'Exchange Toolkit', 'YesNo', 'Information') -eq 'Yes') { Start-Process $path }
+        if ([System.Windows.Forms.MessageBox]::Show(("Report saved to:`n$path`n`nOpen it now?"), 'Exchange GUI Tool', 'YesNo', 'Information') -eq 'Yes') { Start-Process $path }
     } catch {
-        [void][System.Windows.Forms.MessageBox]::Show(('The HTML report could not be built: {0}' -f $_.Exception.Message), 'Exchange Toolkit', 'OK', 'Error')
+        [void][System.Windows.Forms.MessageBox]::Show(('The HTML report could not be built: {0}' -f $_.Exception.Message), 'Exchange GUI Tool', 'OK', 'Error')
     }
 }
 
@@ -5138,7 +5138,7 @@ $script:btnSaveJson.Add_Click({
             Write-EtkLog ('Report written to {0}' -f $dlg.FileName)
         }
     } catch {
-        [void][System.Windows.Forms.MessageBox]::Show(('The report could not be saved: {0}' -f $_.Exception.Message), 'Exchange Toolkit', 'OK', 'Error')
+        [void][System.Windows.Forms.MessageBox]::Show(('The report could not be saved: {0}' -f $_.Exception.Message), 'Exchange GUI Tool', 'OK', 'Error')
     }
 })
 
@@ -5177,7 +5177,7 @@ $script:form.Add_FormClosing({
 # ---------------------------------------------------------------------------
 $tag = ''
 if ($script:Context.isSystem) { $tag = '  [SYSTEM]' } elseif ($script:Context.elevated) { $tag = '  [elevated]' } else { $tag = '  [NOT elevated - VSS, shadow copies, Security log and IIS checks will say so]' }
-Write-EtkLog ('Exchange Toolkit {0} on {1}, running as {2}{3}, PowerShell {4}.' -f (Get-EtkVersion), $script:Context.computerName, $script:Context.runAs, $tag, $script:Context.psVersion)
+Write-EtkLog ('Exchange GUI Tool {0} on {1}, running as {2}{3}, PowerShell {4}.' -f (Get-EtkVersion), $script:Context.computerName, $script:Context.runAs, $tag, $script:Context.psVersion)
 if ($script:Account.shared) { Write-EtkLog ('Running as {0}, a shared account: you will be asked for your name before the first action, so the action log says who ran it.' -f $script:Account.name) }
 if ($script:Context.isSystem) { Write-EtkLog 'Running as SYSTEM: Exchange is reached through the local management snap-in (remote PowerShell would sign in as the computer account). Remote targets are not available.' }
 if ($script:Context.exchangeInstalled) { Write-EtkLog 'Exchange is installed here - connecting.' }
